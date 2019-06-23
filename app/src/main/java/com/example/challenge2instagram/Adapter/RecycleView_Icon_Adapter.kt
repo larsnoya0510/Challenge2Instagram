@@ -9,8 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.example.challenge2instagram.DataClass
-import com.example.challenge2instagram.IconData
+import com.example.challenge2instagram.Data.IconData
 import com.example.challenge2instagram.R
 
 class RecycleView_Icon_Adapter(

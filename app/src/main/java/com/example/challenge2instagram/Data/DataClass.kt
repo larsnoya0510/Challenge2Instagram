@@ -1,41 +1,46 @@
-package com.example.challenge2instagram
+package com.example.challenge2instagram.Data
 
- class DataClass() {
+import android.annotation.SuppressLint
+import android.os.Parcel
+import android.os.Parcelable
+import com.example.challenge2instagram.R
+
+class DataClass() {
     companion object {
          val iconArray = intArrayOf(
-            R.drawable.icon01,
-            R.drawable.icon02,
-            R.drawable.icon03,
-            R.drawable.icon04,
-            R.drawable.icon05,
-            R.drawable.icon06,
-            R.drawable.icon07,
-            R.drawable.icon08,
-            R.drawable.icon09,
-            R.drawable.icon10
+             R.drawable.icon01,
+             R.drawable.icon02,
+             R.drawable.icon03,
+             R.drawable.icon04,
+             R.drawable.icon05,
+             R.drawable.icon06,
+             R.drawable.icon07,
+             R.drawable.icon08,
+             R.drawable.icon09,
+             R.drawable.icon10
 
         )
          val picArray = intArrayOf(
-            R.drawable.image01,
-            R.drawable.image02,
-            R.drawable.image03,
-            R.drawable.image04,
-            R.drawable.image05,
-            R.drawable.image06,
-            R.drawable.image07,
-            R.drawable.image08,
-            R.drawable.image09,
-            R.drawable.image10,
-            R.drawable.image11,
-            R.drawable.image12,
-            R.drawable.image13,
-            R.drawable.image14,
-            R.drawable.image15,
-            R.drawable.image16,
-            R.drawable.image17,
-            R.drawable.image18,
-            R.drawable.image19,
-            R.drawable.image20
+             R.drawable.image01,
+             R.drawable.image02,
+             R.drawable.image03,
+             R.drawable.image04,
+             R.drawable.image05,
+             R.drawable.image06,
+             R.drawable.image07,
+             R.drawable.image08,
+             R.drawable.image09,
+             R.drawable.image10,
+             R.drawable.image11,
+             R.drawable.image12,
+             R.drawable.image13,
+             R.drawable.image14,
+             R.drawable.image15,
+             R.drawable.image16,
+             R.drawable.image17,
+             R.drawable.image18,
+             R.drawable.image19,
+             R.drawable.image20
         )
          val nameArray = arrayOf(
             "Apple","Buton","Candy","David","Elvis","Frank","Gin","Helen","Ivy","Jacky"
@@ -166,15 +171,167 @@ package com.example.challenge2instagram
         }
     }
 }
-data class IconData(var icon : Int,var name:String){
-    companion object{
-        val defaultList: MutableList<IconData>
+@SuppressLint("ParcelCreator")
+data class TimeLineData(var image : Int, var comment:String) : Parcelable{
+    constructor(parcel: Parcel) : this(
+        parcel.readInt(),
+        parcel.readString()
+    ) {
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(image)
+        parcel.writeString(comment)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<TimeLineData> {
+        override fun createFromParcel(parcel: Parcel): TimeLineData {
+            return TimeLineData(parcel)
+        }
+
+        override fun newArray(size: Int): Array<TimeLineData?> {
+            return arrayOfNulls(size)
+        }
+        val defaultList: MutableList<TimeLineData>
             get() {
-                val dataList = mutableListOf<IconData>()
-                for (i in DataClass.iconArray.indices) {
-                    dataList.add(IconData(DataClass.iconArray[i], DataClass.nameArray[i]))
+                val dataList = mutableListOf<TimeLineData>()
+                for (i in DataClass.picArray.indices) {
+                    dataList.add(
+                        TimeLineData(
+                            DataClass.picArray[i],
+                            DataClass.commentArray[i]
+                        )
+                    )
                 }
                 return dataList
             }
     }
+}
+@SuppressLint("ParcelCreator")
+data class IconData(var icon : Int, var name:String) : Parcelable{
+    constructor(parcel: Parcel) : this(
+        parcel.readInt(),
+        parcel.readString()
+    ) {
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(icon)
+        parcel.writeString(name)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<IconData> {
+        override fun createFromParcel(parcel: Parcel): IconData {
+            return IconData(parcel)
+        }
+
+        override fun newArray(size: Int): Array<IconData?> {
+            return arrayOfNulls(size)
+        }
+        val defaultList: MutableList<IconData>
+            get() {
+                val dataList = mutableListOf<IconData>()
+                for (i in DataClass.iconArray.indices) {
+                    dataList.add(
+                        IconData(
+                            DataClass.iconArray[i],
+                            DataClass.nameArray[i]
+                        )
+                    )
+                }
+                return dataList
+            }
+    }
+}
+@SuppressLint("ParcelCreator")
+class Userinfo() :Parcelable{
+
+    var userIcon : Int =0
+    var userName : String =""
+    var userId : Int=0
+    var posts :Float =0F
+    var followers :Int=0
+    var following : Int =0
+    var company : String =""
+    var companydescribe : String =""
+    var describe : String =""
+    var website : String=""
+    var followBy : MutableList<IconData> =ArrayList()
+    var Gallery:  MutableList<TimeLineData> =ArrayList()
+    inline fun <reified T> Parcel.readMutableList(): MutableList<T> {
+        @Suppress("UNCHECKED_CAST")
+        return readArrayList(T::class.java.classLoader) as MutableList<T>
+    }
+    constructor(parcel: Parcel) : this() {
+        userIcon = parcel.readInt()
+        userName = parcel.readString()
+        userId = parcel.readInt()
+        posts = parcel.readFloat()
+        followers = parcel.readInt()
+        following = parcel.readInt()
+        company = parcel.readString()
+        companydescribe = parcel.readString()
+        describe = parcel.readString()
+        website = parcel.readString()
+        followBy = parcel.readMutableList()
+        Gallery = parcel.readMutableList()
+//        followBy = parcel.readArrayList(IconData::class.java.classLoader) as MutableList<IconData>
+//        Gallery = parcel.readArrayList(TimeLineData::class.java.classLoader) as MutableList<TimeLineData>
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(userIcon)
+        parcel.writeString(userName)
+        parcel.writeInt(userId)
+        parcel.writeFloat(posts)
+        parcel.writeInt(followers)
+        parcel.writeInt(following)
+        parcel.writeString(company)
+        parcel.writeString(companydescribe)
+        parcel.writeString(describe)
+        parcel.writeString(website)
+        parcel.writeList(followBy)
+        parcel.writeList(Gallery)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<Userinfo> {
+        override fun createFromParcel(parcel: Parcel): Userinfo {
+            return Userinfo(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Userinfo?> {
+            return arrayOfNulls(size)
+        }
+        val defaultData: Userinfo
+            get() {
+                val user= Userinfo()
+                user.userIcon = R.drawable.subicon
+                user.userName = "natgeo"
+                user.userId = 131452777
+                user.posts = 20.4F
+                user.followers=112
+                user.following=131
+                user.company = "National Geographic"
+                user.companydescribe = "Media/News Company"
+                user.describe = "Experience the world through the Geographic photographers."
+                user.website = "natgeo.com"
+                user.followBy = IconData.defaultList
+                user.Gallery = TimeLineData.defaultList
+                return user
+            }
+    }
+
+
 }
