@@ -16,6 +16,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" android:id="@+id/tv_userName" android:layout_weight="30"
                 android:gravity="left|center_vertical" android:text="natgeo" android:textColor="@android:color/black"/>
+        <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp" app:srcCompat="@drawable/more" android:id="@+id/imageView"
+                android:layout_weight="1"/>
     </LinearLayout>
     <ImageView
             android:layout_width="match_parent"
