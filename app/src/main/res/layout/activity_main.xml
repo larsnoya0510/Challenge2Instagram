@@ -12,7 +12,7 @@
             android:theme="?attr/actionBarTheme"
             android:minHeight="?attr/actionBarSize" android:id="@+id/toolbar_this"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
-            app:titleTextColor="@android:color/black">
+            app:titleTextColor="@android:color/black" app:layout_constraintTop_toTopOf="parent">
         <Button
                 android:layout_width="40dp"
                 android:layout_height="40dp" android:id="@+id/Btn_Camera" android:background="@drawable/camera"
@@ -21,31 +21,47 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Instagram"
+                android:text="InstagramFake"
                 android:layout_gravity="center"
                 android:id="@+id/toolbar_title"
                 android:fontFamily="@font/billabong" android:textColor="@android:color/black"
                 tools:layout_editor_absoluteY="12dp" tools:layout_editor_absoluteX="158dp" android:textSize="30sp"
         />
     </android.support.v7.widget.Toolbar>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_this"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" android:id="@+id/linearLayout">
-    <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" android:id="@+id/RecycleView_Icons"/>
-</LinearLayout>
-    <android.support.v7.widget.RecyclerView
+    <android.support.v4.widget.NestedScrollView
             android:layout_width="0dp"
-            android:layout_height="0dp" android:id="@+id/RecycleView_TimeLine"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout" app:layout_constraintStart_toStartOf="parent"
+            android:layout_height="0dp" android:fillViewport="true"
+            android:id="@+id/nestedScrollView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_this"
+            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/toolbar_this"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" android:id="@+id/linearLayout">
+                <android.support.v7.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" android:id="@+id/RecycleView_Icons"/>
+            </LinearLayout>
+            <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/RecycleView_TimeLine"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"/>
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
     <android.support.design.widget.BottomNavigationView
             android:layout_width="0dp"
             android:layout_height="70dp"

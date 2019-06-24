@@ -24,9 +24,9 @@ class Switch_Layout_RecycleAdapter(
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     lateinit var mContext: Context
-    //val inflater: LayoutInflater = LayoutInflater.from(context)
     val VIEW_TYPE_Gallery = 1
     val VIEW_TYPE_Large = 2
+
     override fun getItemViewType(position: Int): Int {
         val spanCount = layoutManager.spanCount
         when (spanCount) {
@@ -39,30 +39,25 @@ class Switch_Layout_RecycleAdapter(
         mContext = parent.getContext()
         val metrics = parent.context.resources.displayMetrics
 
-        // 指定了 layout
+        // 指定 layout
         when (viewType) {
             VIEW_TYPE_Gallery -> {
                 //println("create view holder gallery")
                 var view =
                     LayoutInflater.from(parent.context).inflate(R.layout.item_switchlayout_gallery, parent, false)
-                var mImageView = view.findViewById<ImageView>(R.id.iv_small)
-
-                //view.minimumWidth = 720 * (1080 / metrics.widthPixels)
-                //view.minimumHeight = 220
+                //var mImageView = view.findViewById<ImageView>(R.id.iv_small)
                 return galleryViewHolder(view)
             }
             else -> {
-                //println("create view holder big")
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_timeline_recycleview_layout, parent, false)
-                view.minimumWidth = metrics.widthPixels - 16
+                //view.minimumWidth = metrics.widthPixels - 16
                 return timelineViewHolder(view)
             }
         }
     }
 
     override fun getItemCount(): Int {
-        //Log.d("multi", "items.size " + items.size)
         return items.size
     }
 
@@ -78,10 +73,6 @@ class Switch_Layout_RecycleAdapter(
                 intent_goPhoto.putExtra("userPhoto", userPhoto)
                 this.mContext.startActivity(intent_goPhoto)
             }
-//            var userPhoto = items[position]
-//            var intent_goPhoto = Intent(this.mContext, Activity_Photo::class.java)
-//            intent_goPhoto.putExtra("userPhoto", userPhoto)
-//            this.mContext.startActivity(intent_goPhoto)
         } else if (holder is timelineViewHolder) {
             Log.d("AAAA", "BBB")
             Glide.with(mContext).load(item.image).into(holder.iv_image)

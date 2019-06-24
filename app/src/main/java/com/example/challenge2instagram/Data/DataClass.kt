@@ -3,6 +3,7 @@ package com.example.challenge2instagram.Data
 import android.annotation.SuppressLint
 import android.os.Parcel
 import android.os.Parcelable
+import android.text.TextUtils
 import com.example.challenge2instagram.R
 
 class DataClass() {
@@ -172,16 +173,18 @@ class DataClass() {
     }
 }
 @SuppressLint("ParcelCreator")
-data class TimeLineData(var image : Int, var comment:String) : Parcelable{
+data class TimeLineData(var image : Int, var comment:String, var isEllipsize: Int) : Parcelable{
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
-        parcel.readString()
+        parcel.readString(),
+        parcel.readInt()
     ) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(image)
         parcel.writeString(comment)
+        parcel.writeInt(isEllipsize)
     }
 
     override fun describeContents(): Int {
@@ -203,7 +206,8 @@ data class TimeLineData(var image : Int, var comment:String) : Parcelable{
                     dataList.add(
                         TimeLineData(
                             DataClass.picArray[i],
-                            DataClass.commentArray[i]
+                            DataClass.commentArray[i],
+                            0
                         )
                     )
                 }

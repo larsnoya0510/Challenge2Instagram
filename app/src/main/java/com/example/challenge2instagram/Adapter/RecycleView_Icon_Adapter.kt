@@ -34,7 +34,6 @@ class RecycleView_Icon_Adapter(
         var vh: iconViewHolder = holder as iconViewHolder
         Glide.with(mContext).load(dataList[position].icon).into(vh.iv_headicon)
         vh.tv_userName.text = dataList[position].name
-
     }
 
     inner class iconViewHolder(view: View) : RecyclerView.ViewHolder(view) {
