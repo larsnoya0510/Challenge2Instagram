@@ -3,7 +3,8 @@ package com.example.challenge2instagram.Data
 import android.annotation.SuppressLint
 import android.os.Parcel
 import android.os.Parcelable
-import android.text.TextUtils
+import com.example.challenge2instagram.MainActivity_MVP.InterFace_ModelAndPresenter
+import com.example.challenge2instagram.RecycleView_Timeline_MVP.InterFace_Model_RecycyleTimeline
 import com.example.challenge2instagram.R
 
 class DataClass() {
@@ -167,9 +168,9 @@ class DataClass() {
                     "        Nunc posuere dapibus leo, quis tempor nisl hendrerit eget. Donec ac mattis nisi. Ut id nulla at massa efficitur\n" +
                     "        rhoncus."
         )
-        fun getIconList(): MutableList<Int>{
-            return iconArray.toMutableList()
-        }
+//        fun getIconList(): MutableList<Int>{
+//            return iconArray.toMutableList()
+//        }
     }
 }
 @SuppressLint("ParcelCreator")
@@ -337,5 +338,21 @@ class Userinfo() :Parcelable{
             }
     }
 
+
+}
+class GetIconAndTimelineData : InterFace_ModelAndPresenter {
+    override fun getIconDataFromModel(): MutableList<IconData> {
+        return IconData.defaultList
+    }
+
+    override fun getTimeLineDataFromModel(): MutableList<TimeLineData> {
+        return TimeLineData.defaultList
+    }
+
+}
+class GetUserInfoData : InterFace_Model_RecycyleTimeline {
+    override fun getUserinfoFromModel(): Userinfo {
+        return Userinfo.defaultData
+    }
 
 }

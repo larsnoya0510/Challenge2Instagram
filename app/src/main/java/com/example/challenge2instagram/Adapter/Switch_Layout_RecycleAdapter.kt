@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -65,7 +66,6 @@ class Switch_Layout_RecycleAdapter(
         val item = items[position]
         //holder?.bindModel(item)
         if (holder is galleryViewHolder) {
-            Log.d("AAAA", "AAA")
             Glide.with(mContext).load(item.image).into(holder.iv_image)
             holder.iv_image.setOnClickListener {
                 var userPhoto = items[position]
@@ -74,16 +74,23 @@ class Switch_Layout_RecycleAdapter(
                 this.mContext.startActivity(intent_goPhoto)
             }
         } else if (holder is timelineViewHolder) {
-            Log.d("AAAA", "BBB")
             Glide.with(mContext).load(item.image).into(holder.iv_image)
             holder.tv_comment.text = item.comment
             var randCount: Int = (Math.random() * 10000 + 1).toInt() //變數區間1-3 從1開始
             holder.tv_like.text = randCount.toString() + " likes"
-            holder.ll_item_user.setOnClickListener {
-                //            var userInfo = Userinfo.defaultData
-//            var intent_getUser = Intent(this.context, Activity_UserInfo::class.java)
-//            intent_getUser.putExtra("userinfo", userInfo)
-//            this.context.startActivity(intent_getUser)
+            holder.tv_comment.setOnClickListener {
+                when (item.isEllipsize) {
+                    1 -> {
+                        holder.tv_comment.ellipsize = TextUtils.TruncateAt.END
+                        holder.tv_comment.setSingleLine(true)
+                        item.isEllipsize = 0
+                    }
+                    else -> {
+                        holder.tv_comment.ellipsize = null
+                        holder.tv_comment.setSingleLine(false)
+                        item.isEllipsize = 1
+                    }
+                }
             }
         }
     }

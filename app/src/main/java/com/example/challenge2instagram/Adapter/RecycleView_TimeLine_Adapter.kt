@@ -1,11 +1,9 @@
 package com.example.challenge2instagram.Adapter
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +14,8 @@ import com.bumptech.glide.Glide
 import com.example.challenge2instagram.Activity_UserInfo
 import com.example.challenge2instagram.Data.TimeLineData
 import com.example.challenge2instagram.Data.Userinfo
+import com.example.challenge2instagram.RecycleView_Timeline_MVP.InterFace_View_RecycyleView_TimeLine
+import com.example.challenge2instagram.RecycleView_Timeline_MVP.Presenter_RecycleView_Timeline
 import com.example.challenge2instagram.R
 
 
@@ -23,7 +23,17 @@ class RecycleView_TimeLine_Adapter(
     private val context : Context,
     private val dataList: MutableList<TimeLineData>
 ) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    RecyclerView.Adapter<RecyclerView.ViewHolder>(),
+    InterFace_View_RecycyleView_TimeLine {
+    lateinit var mUserInfo : Userinfo
+    override fun getUserinfoFromPresenter(returnUserinfo: Userinfo) {
+        mUserInfo = returnUserinfo
+    }
+init{
+    var mPresenter_RecycleViewTimelime =
+        Presenter_RecycleView_Timeline(this)
+    mPresenter_RecycleViewTimelime.requestUserinfo()
+}
     lateinit var mContext: Context
     val inflater: LayoutInflater = LayoutInflater.from(context)
 
@@ -36,39 +46,33 @@ class RecycleView_TimeLine_Adapter(
         return dataList.size
     }
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        //Log.d("github"," in onBindViewHolder")
         var vh: timelineViewHolder = holder as timelineViewHolder
         Glide.with(mContext).load(dataList[position].image).into(vh.iv_image)
         //vh.isEllipsize=dataList[position].isEllipsize
         vh.tv_comment.text = dataList[position].comment
         vh.tv_comment.setOnClickListener {
-            Log.d("AAAAAA","  vh.tv_comment.setOnClickListener")
             when(dataList[position].isEllipsize) {
-                0 ->{
-                    //Log.d("AAAAAA","isEllipsize false")
+                1 ->{
                     vh.tv_comment.ellipsize = TextUtils.TruncateAt.END
                     vh.tv_comment.setSingleLine(true)
-                    dataList[position].isEllipsize= 1
-                    //vh.isEllipsize = true
+                    dataList[position].isEllipsize= 0
                 } else-> {
-                //Log.d("AAAAAA","isEllipsize true")
                     vh.tv_comment.ellipsize = null
                     vh.tv_comment.setSingleLine(false)
-                    //vh.isEllipsize = false
-                    dataList[position].isEllipsize= 0
+                    dataList[position].isEllipsize= 1
                 }
             }
         }
         var randCount:Int = (Math.random()*10000+1).toInt() //變數區間1-3 從1開始
         vh.tv_like.text =randCount.toString()+" likes"
         vh.ll_item_user.setOnClickListener {
-            var userInfo = Userinfo.defaultData
+//            var userInfo = Userinfo.defaultData
+            var userInfo = mUserInfo
             var intent_getUser=Intent(this.context,Activity_UserInfo::class.java)
             intent_getUser.putExtra("userinfo",userInfo)
             this.context.startActivity(intent_getUser)
         }
     }
-
     inner class timelineViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var iv_image = view.findViewById<ImageView>(R.id.iv_pic)
         var tv_like = view.findViewById<TextView>(R.id.tv_like)

@@ -11,20 +11,29 @@ import android.view.Menu
 import com.example.challenge2instagram.Adapter.RecycleView_TimeLine_Adapter
 import com.example.challenge2instagram.Data.IconData
 import com.example.challenge2instagram.Data.TimeLineData
+import com.example.challenge2instagram.MainActivity_MVP.InterFace_ViewAndPresenter
+import com.example.challenge2instagram.MainActivity_MVP.Presenter_MainActivity
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), InterFace_ViewAndPresenter {
     lateinit var mIconData : MutableList<IconData>
     lateinit var mTimeLineData : MutableList<TimeLineData>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         //取得資料
-        mIconData = IconData.defaultList
-        mTimeLineData = TimeLineData.defaultList
+        var mPresenter = Presenter_MainActivity(this)
+        mPresenter.requestIconData()
+        mPresenter.requestTimeLineData()
         initView()
     }
+    override fun getIconDataFromPresenter( returnIconData :MutableList<IconData> ){
+        mIconData =returnIconData
+    }
 
+    override fun getTimeLineDataFromPresenter(returnTimeLineData:MutableList<TimeLineData>) {
+        mTimeLineData = returnTimeLineData
+    }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_toolbar, menu)
         return true
