@@ -17,8 +17,6 @@ import com.example.challenge2instagram.Data.Userinfo
 import com.example.challenge2instagram.RecycleView_Timeline_MVP.InterFace_View_RecycyleView_TimeLine
 import com.example.challenge2instagram.RecycleView_Timeline_MVP.Presenter_RecycleView_Timeline
 import com.example.challenge2instagram.R
-
-
 class RecycleView_TimeLine_Adapter(
     private val context : Context,
     private val dataList: MutableList<TimeLineData>
