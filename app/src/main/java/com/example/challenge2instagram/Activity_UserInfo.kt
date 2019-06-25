@@ -25,7 +25,6 @@ import android.util.Log
 import android.view.MenuItem
 import com.example.challenge2instagram.Adapter.Switch_Layout_RecycleAdapter
 
-
 class Activity_UserInfo : AppCompatActivity() {
     lateinit var gridLayoutManager: GridLayoutManager
     lateinit var itemsAdapter: Switch_Layout_RecycleAdapter
@@ -35,7 +34,6 @@ class Activity_UserInfo : AppCompatActivity() {
         setContentView(R.layout.activity__user_info)
         //取得資料
         userinfo = intent.getParcelableExtra<Userinfo>("userinfo")
-
         initView()
     }
     //綁定toobar menu
